@@ -1,0 +1,8 @@
+[package]
+name = "silent-doorbell"
+version = "0.1.0"
+license = "GPLv3"
+authors = ["Patrick O'Doherty <p@trickod.com>"]
+
+[dependencies]
+request = "0.0.8"
