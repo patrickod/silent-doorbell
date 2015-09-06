@@ -6,3 +6,4 @@ authors = ["Patrick O'Doherty <p@trickod.com>"]
 
 [dependencies]
 request = "0.0.8"
+rustc-serialize = "0.3"
