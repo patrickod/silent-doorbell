@@ -22,7 +22,7 @@ impl TwilioConfig {
     }
 
     pub fn to_http_auth(&self) -> String {
-        let auth_string = format!("{}:{}", self.account_sid, self.auth_token);
+        let auth_string = format!("Basic {}:{}", self.account_sid, self.auth_token);
         return auth_string.into_bytes().to_base64(STANDARD);
     }
 }
