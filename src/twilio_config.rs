@@ -22,7 +22,8 @@ impl TwilioConfig {
     }
 
     pub fn to_http_auth(&self) -> String {
-        let auth_string = format!("Basic {}:{}", self.account_sid, self.auth_token);
-        return auth_string.into_bytes().to_base64(STANDARD);
+        let formatted_credentials = format!("{}:{}", self.account_sid, self.auth_token);
+        let encoded_credentials = formatted_credentials.into_bytes().to_base64(STANDARD);
+        return format!("Basic {}", encoded_credentials);
     }
 }
