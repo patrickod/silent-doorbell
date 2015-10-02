@@ -27,3 +27,15 @@ impl TwilioConfig {
         return format!("Basic {}", encoded_credentials);
     }
 }
+
+
+#[test]
+fn test_twilio_config_to_http_auth() {
+    let config = TwilioConfig {
+        account_sid: "foo".to_string(),
+        auth_token: "bar".to_string()
+    };
+    let header = config.to_http_auth();
+
+    assert_eq!(header, "Basic Zm9vOmJhcg==".to_string());
+}
