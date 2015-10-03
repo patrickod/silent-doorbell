@@ -1,12 +1,18 @@
 extern crate url;
 extern crate request;
+extern crate rustc_serialize;
 
 use std::collections::HashMap;
-use std::io::Result;
+use rustc_serialize::json::Json;
 
 use twilio_config::TwilioConfig;
 
-pub fn send_sms(config: TwilioConfig, from: &str, to: &str, body: &str) -> Result<()> {
+#[derive(Debug)]
+pub enum SMSError {
+    UnknownException
+}
+
+pub fn send_sms(config: TwilioConfig, from: &str, to: &str, body: &str) -> Result<String, SMSError> {
     let endpoint = twilio_api_sms_url(&config);
     let mut headers: HashMap<String, String> = HashMap::new();
     let mut params: HashMap<String, String> = HashMap::new();
@@ -19,14 +25,23 @@ pub fn send_sms(config: TwilioConfig, from: &str, to: &str, body: &str) -> Resul
     headers.insert("Authorization".to_string(), config.to_http_auth());
     headers.insert("Content-Type".to_string(), "application/x-www-form-urlencoded".to_string());
 
-    let body = serialize_message_request_mody(params);
-    try!(request::post(&endpoint, &mut headers, body.as_bytes()));
+    let response = match request::post(&endpoint, &mut headers, serialize_message_request_mody(params).as_bytes()) {
+        Ok(response) => response,
+        Err(_) => { return Err(SMSError::UnknownException); }
+    };
 
-    return Ok(());
+    if response.status_code != 201 {
+        return Err(SMSError::UnknownException);
+    }
+
+    let json = Json::from_str(&response.body).unwrap();
+    let message_sid = json.as_object().unwrap().get("sid").unwrap();
+
+    return Ok(format!("{}", message_sid));
 }
 
 fn twilio_api_sms_url(config: &TwilioConfig) -> String {
-    return format!("https://api.twilio.com/2010-04-01/Accounts/{}/Messages", config.account_sid)
+    return format!("https://api.twilio.com/2010-04-01/Accounts/{}/Messages.json", config.account_sid)
 }
 
 fn serialize_message_request_mody(params: HashMap<String, String>) -> String {
