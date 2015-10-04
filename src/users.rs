@@ -23,6 +23,7 @@ pub fn read_users(path: String) -> Result<Vec<User>> {
             None => { warn!("Invalid user line: {}", line); }
         }
     }
+    info!("Read {} users", users.len());
     return Ok(users);
 }
 
