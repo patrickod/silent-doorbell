@@ -57,7 +57,7 @@ fn parse_user(line: &str) -> Option<User> {
 
 #[test]
 fn test_parse_user() {
-    let line = "patrickod,+16507017829,patrickod".to_string();
+    let line = "patrickod,+16507017829,patrickod";
     let user = parse_user(line).unwrap();
 
     assert_eq!(user.username, "patrickod".to_string());
@@ -67,12 +67,12 @@ fn test_parse_user() {
 
 #[test]
 fn test_parse_empty_user() {
-    let line = "".to_string();
+    let line = "";
     assert!(parse_user(line).is_none());
 }
 
 #[test]
 fn test_parse_user_username_only() {
-    let line = "patrickod".to_string();
+    let line = "patrickod";
     assert!(parse_user(line).is_none());
 }
