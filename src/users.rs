@@ -42,24 +42,36 @@ fn parse_user(line: String) -> Option<User> {
         Some(number) => Some(number.to_owned()),
         None => None
     };
-    return Some(User {
-        username: username.unwrap().to_owned(),
-        phone_number: phone_number,
-        slack_username: slack_username
-    });
+
+    if phone_number.is_some() || slack_username.is_some() {
+        return Some(User {
+            username: username.unwrap().to_owned(),
+            phone_number: phone_number,
+            slack_username: slack_username
+        });
+    } else {
+        return None;
+    }
 }
 
 #[test]
 fn test_parse_user() {
-    let good = "patrickod,+16507017829,patrickod".to_string();
-    let bad = "".to_string();
+    let line = "patrickod,+16507017829,patrickod".to_string();
+    let user = parse_user(line).unwrap();
 
-    let option_good = parse_user(good);
-    assert!(option_good.is_some());
-    let parsed_good = option_good.unwrap();
-    assert_eq!(parsed_good.username, "patrickod".to_string());
-    assert_eq!(parsed_good.phone_number.unwrap(), "+16507017829".to_string());
-    assert_eq!(parsed_good.slack_username.unwrap(), "patrickod".to_string());
+    assert_eq!(user.username, "patrickod".to_string());
+    assert_eq!(user.slack_username.unwrap(), "patrickod".to_string());
+    assert_eq!(user.phone_number.unwrap(), "+16507017829".to_string());
+}
 
-    assert!(parse_user(bad).is_none());
+#[test]
+fn test_parse_empty_user() {
+    let line = "".to_string();
+    assert!(parse_user(line).is_none());
+}
+
+#[test]
+fn test_parse_user_username_only() {
+    let line = "patrickod".to_string();
+    assert!(parse_user(line).is_none());
 }
