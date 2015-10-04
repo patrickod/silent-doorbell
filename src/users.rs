@@ -6,9 +6,9 @@ use std::option::Option;
 
 #[derive(Debug)]
 pub struct User {
-    username: String,
-    phone_number: Option<String>,
-    slack_username: Option<String>
+    pub username: String,
+    pub phone_number: Option<String>,
+    pub slack_username: Option<String>
 }
 
 pub fn read_users(path: String) -> Result<Vec<User>> {

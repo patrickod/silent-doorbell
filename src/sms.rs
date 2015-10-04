@@ -12,7 +12,8 @@ pub enum SMSError {
     UnknownException
 }
 
-pub fn send_sms(config: TwilioConfig, from: &str, to: &str, body: &str) -> Result<String, SMSError> {
+pub fn send_sms(from: &str, to: &str, body: &str) -> Result<String, SMSError> {
+    let config = TwilioConfig::from_env();
     let endpoint = twilio_api_sms_url(&config);
     let mut headers: HashMap<String, String> = HashMap::new();
     let mut params: HashMap<String, String> = HashMap::new();
