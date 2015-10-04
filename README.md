@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/patrickod/wuphf.svg?branch=master)](https://travis-ci.org/patrickod/wuphf)
 # WUPHF
 
 WUPHF is a small notification service that is used in combination with
