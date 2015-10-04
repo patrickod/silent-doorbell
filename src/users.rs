@@ -4,7 +4,7 @@ use std::io::Result;
 use std::fs::File;
 use std::option::Option;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct User {
     pub username: String,
     pub phone_number: Option<String>,
