@@ -18,15 +18,15 @@ pub fn read_users(path: String) -> Result<Vec<User>> {
 
     for line in reader.lines() {
         let line = try!(line);
-        match parse_user(line) {
+        match parse_user(&line) {
             Some(user) => { users.push(user) },
-            None => ()
+            None => { warn!("Invalid user line: {}", line); }
         }
     }
     return Ok(users);
 }
 
-fn parse_user(line: String) -> Option<User> {
+fn parse_user(line: &str) -> Option<User> {
     let parts: Vec<String> = line.split(",").map( |s| s.to_owned() ).collect();
     let username = parts.get(0);
 
