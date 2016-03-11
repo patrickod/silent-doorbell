@@ -1,7 +1,7 @@
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::sync::mpsc::Sender;
-use std::net::{TcpListener,TcpStream};
+use std::net::{TcpStream};
 
 pub fn connect(address: &str) -> BufReader<TcpStream> {
     let stream = match TcpStream::connect(address) {
@@ -9,7 +9,7 @@ pub fn connect(address: &str) -> BufReader<TcpStream> {
         Err(e) => { return panic!("Unable to connect to earl: {:?}", e)}
     };
 
-    return BufReader::new(stream); 
+    return BufReader::new(stream);
 }
 
 pub fn listen(reader: BufReader<TcpStream>, events: Sender<String>) {
