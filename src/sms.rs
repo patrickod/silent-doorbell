@@ -35,8 +35,8 @@ pub fn send_sms(from: &str, to: &str, body: &str) -> Result<String, SMSError> {
         return Err(SMSError::UnknownException);
     }
 
-    let json = Json::from_str(&response.body).unwrap();
-    let message_sid = json.as_object().unwrap().get("sid").unwrap();
+    let json = Json::from_str(&response.body).expect("Got empty response body");
+    let message_sid = json.as_object().expect("Malformed JSON response").get("sid").expect("Missing SID");
 
     return Ok(format!("{}", message_sid));
 }

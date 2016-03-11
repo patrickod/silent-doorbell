@@ -8,7 +8,7 @@ use std::sync::mpsc::channel;
 use std::thread;
 
 fn main() {
-    env_logger::init().unwrap();
+    env_logger::init().expect("Unable to initialize logger");
 
     let address = match std::env::var("EARL_URL") {
         Ok(val) => val,

@@ -31,7 +31,7 @@ fn parse_user(line: &str) -> Option<User> {
     let parts: Vec<String> = line.split(",").map( |s| s.to_owned() ).collect();
     let username = parts.get(0);
 
-    if username.is_none() || username.unwrap().is_empty() {
+    if username.is_none() || username.expect("Read invalid user").is_empty() {
         return None;
     }
 
@@ -46,7 +46,7 @@ fn parse_user(line: &str) -> Option<User> {
 
     if phone_number.is_some() || slack_username.is_some() {
         return Some(User {
-            username: username.unwrap().to_owned(),
+            username: username.expect("Invalid username").to_owned(),
             phone_number: phone_number,
             slack_username: slack_username
         });

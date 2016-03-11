@@ -8,16 +8,12 @@ pub struct TwilioConfig {
 
 impl TwilioConfig {
     pub fn from_env() -> TwilioConfig {
-        let account_sid = env::var("TWILIO_ACCOUNT_SID");
-        let auth_token = env::var("TWILIO_AUTH_TOKEN");
+        let account_sid = env::var("TWILIO_ACCOUNT_SID").expect("No TWILIO_ACCOUNT_SID");
+        let auth_token = env::var("TWILIO_AUTH_TOKEN").expect("No TWILIO_AUTH_TOKEN");
 
-        if account_sid.is_ok() && auth_token.is_ok() {
-            return TwilioConfig {
-                account_sid: account_sid.unwrap(),
-                auth_token: auth_token.unwrap()
-            }
-        } else {
-            panic!("Unable to read Twilio config from environment")
+        return TwilioConfig {
+            account_sid: account_sid,
+            auth_token: auth_token
         }
     }
 
